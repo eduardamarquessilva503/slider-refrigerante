@@ -1,0 +1,801 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+:root {
+    --text-color: #ffffff;
+    --coca-red: #d32027;
+    --fanta-orange: #f28b21;
+    --sprite-green: #009c48;
+}
+
+body {
+    background-color: #111;
+    color: var(--text-color);
+    overflow: hidden;
+}
+
+/* Navbar */
+header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 35px 80px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.left-links {
+    display: flex;
+    gap: 35px;
+    list-style: none;
+    justify-self: start;
+}
+
+.left-links a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.left-links a:hover {
+    opacity: 1;
+}
+
+.logo-center {
+    justify-self: center;
+}
+
+.logo-center img {
+    height: 45px;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    transition: opacity 0.4s ease;
+}
+
+.right-icons {
+    display: flex;
+    gap: 30px;
+    justify-self: end;
+}
+
+.right-icons i {
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.right-icons i:hover {
+    transform: scale(1.2);
+}
+
+/* Slider Container */
+.slider-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* Individual Slides */
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    /* FIX: Usando Flexbox em vez de Position Absolute para organizar o layout! */
+    display: flex;
+    justify-content: center;
+    /* Alinha o conteúdo ao centro horizontal da tela */
+    align-items: center;
+    /* Alinha tudo perfeitamente verticalmente na tela */
+
+    opacity: 0;
+    visibility: hidden;
+    clip-path: circle(0% at 100% 50%);
+    transition: all 0.9s cubic-bezier(0.86, 0, 0.07, 1);
+    z-index: 1;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    clip-path: circle(150% at 50% 50%);
+    z-index: 10;
+}
+
+/* Background Gradients To Match Exact Colors */
+.slide-coca {
+    background: #bd1c24;
+    background: radial-gradient(circle at 70% 50%, #d8232a, #aa161b);
+}
+
+.slide-fanta {
+    background: #ec8e1c;
+    background: radial-gradient(circle at 70% 50%, #f69d2a, #df7d0e);
+}
+
+.slide-sprite {
+    background: #0f9b4c;
+    background: radial-gradient(circle at 70% 50%, #15b35b, #097c3b);
+}
+
+/* Watermark Swirls na direita (SVG) - Fundo abstrato */
+.watermark {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 100%;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500"><path fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="60" d="M 500 0 C 150 100, 100 450, 500 500"/><path fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="80" d="M 500 150 C 250 250, 200 400, 500 450"/><path fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="40" d="M 500 -100 C 0 50, -50 450, 500 600"/></svg>');
+    background-size: cover;
+    background-position: center right;
+    background-repeat: no-repeat;
+    z-index: 0;
+}
+
+/* ======== GABARITO: Layout de 3 Colunas (Flexbox) ======== */
+
+/* 1. TERÇO ESQUERDO: Splash (Copo/Tigela) */
+.splash-box {
+    flex: 1;
+    /* Ocupa um terço relativo, dinamicamente */
+    max-width: 32vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-start;
+    /* Empurra o copo para o canto esquerdo */
+    align-items: center;
+    /* Alinha perfeitamente ao centro vertical do seu contêiner */
+    padding-left: 0;
+    z-index: 2;
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: all 1s cubic-bezier(0.2, 1, 0.3, 1) 0.3s;
+}
+
+.sprite-splash {
+    aspect-ratio: 0.45;
+    /* Devolve a precisão no corte, impedindo que a Fanta vaze para a área do Guaraná */
+    height: 90vh;
+    /* Mantém 90vh para ficar gigante */
+    background-image: url('images/cans.png');
+    background-size: auto 100%;
+    /* Restaura o preenchimento preciso que não deixava pedaços vazarem */
+    background-repeat: no-repeat;
+    filter: drop-shadow(15px 15px 25px rgba(0, 0, 0, 0.3));
+}
+
+.splash-pos-coca {
+    background-position: left center;
+}
+
+.slide-coca .sprite-splash {
+    background-image: url('images/coca.png');
+    background-size: contain;
+    background-position: left center;
+    aspect-ratio: auto;
+    width: 100%;
+}
+
+.slide-fanta .sprite-splash {
+    background-image: url('images/fanta.png');
+    background-size: contain;
+    background-position: left center;
+    aspect-ratio: auto;
+    width: 100%;
+}
+
+.slide-sprite .sprite-splash {
+    background-image: url('images/sprite.png');
+    background-size: contain;
+    background-position: left center;
+    aspect-ratio: auto;
+    width: 100%;
+}
+
+.splash-pos-fanta {
+    background-position: center center;
+}
+
+.splash-pos-sprite {
+    background-position: right center;
+}
+
+
+/* 2. TERÇO CENTRAL: Textos e Botões */
+.content {
+    flex: 0 0 36vw;
+    /* Mantém a largura fixa no centro */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Centraliza verticamente todas as fontes e botões */
+    align-items: center;
+    /* Centralizado novamente conforme "ontem" */
+    text-align: center;
+    /* Adicionado para deixar mais elegante quando no centro */
+    z-index: 5;
+    opacity: 0;
+    padding: 0 20px;
+    transition: all 0.8s cubic-bezier(0.2, 1, 0.3, 1) 0.4s;
+    transform: translateY(40px);
+    /* Inicial com deslocamento pra animação */
+}
+
+.title {
+    font-size: 3.8rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: -1px;
+}
+
+.description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    font-weight: 500;
+    opacity: 0.9;
+    max-width: 90%;
+}
+
+/* Botão VER MAIS */
+.btn {
+    display: inline-block;
+    padding: 15px 38px;
+    background-color: var(--text-color);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    margin-bottom: 50px;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+.btn-red {
+    color: #d32027;
+}
+
+.btn-orange {
+    color: #f28b21;
+}
+
+.btn-green {
+    color: #009c48;
+}
+
+/* Navegação do Slide Inferior (Dots + Setas) */
+.slide-nav {
+    display: flex;
+    align-items: center;
+    gap: 150px;
+}
+
+.dots {
+    display: flex;
+    gap: 8px;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background-color: var(--text-color);
+    width: 15px;
+    border-radius: 4px;
+}
+
+.arrows {
+    display: flex;
+    gap: 10px;
+}
+
+.arrows button {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: var(--text-color);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.arrows button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--text-color);
+}
+
+
+/* 3. TERÇO DIREITO: Lata */
+.image-box {
+    flex: 1;
+    /* Ocupa o último terço, espelhando o logo da esquerda */
+    max-width: 32vw;
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    /* Empurra a lata para o canto direito */
+    padding-right: 5vw;
+    align-items: center;
+    /* Alinha perfeitamente ao centro vertical */
+    z-index: 3;
+    opacity: 0;
+    transform: translateX(50px) rotate(5deg);
+    transition: all 1s cubic-bezier(0.2, 1, 0.3, 1) 0.3s, transform 0.3s ease;
+    cursor: pointer;
+}
+
+.image-box:hover {
+    transform: scale(1.05);
+}
+
+.slide.active .image-box:hover {
+    transform: translateX(0) rotate(0) scale(1.05);
+}
+
+.image-box:active {
+    transform: scale(0.95) !important;
+}
+
+.sprite-can {
+    aspect-ratio: 0.65;
+    /* Evita que a segunda lata apareça (corta exatamente para uma lata) */
+    height: 85vh;
+    /* Aumentado drasticamente para que a lata seja dominante também */
+    background-image: url('images/splashes.png');
+    /* ARQUIVO TROCADO PARA AS LATAS */
+    background-size: 300% 100%;
+    /* Restaura para 300% para cortar rigorosamente as margens das latas vizinhas */
+    background-repeat: no-repeat;
+    filter: drop-shadow(-20px 20px 30px rgba(0, 0, 0, 0.4));
+    transform-origin: center bottom;
+}
+
+.can-pos-coca {
+    background-position: left center;
+}
+
+.can-pos-fanta {
+    background-position: center center;
+}
+
+.can-pos-sprite {
+    background-position: right center;
+}
+
+/* ======== ESTADO ATIVO DAS ANIMAÇÕES ======== */
+.slide.active .splash-box {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide.active .content {
+    opacity: 1;
+    transform: translateY(0);
+    /* Remove o offset e encaixa perfeitamente no flexbox center */
+}
+
+.slide.active .image-box {
+    opacity: 1;
+    transform: translateX(0) rotate(0);
+}
+
+
+/* Animação Flutuante para a lata (Suave e sobre a base imaginária) */
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Responsividade Básica */
+@media (max-width: 1200px) {
+    .splash-box {
+        width: 30vw;
+    }
+
+    .content {
+        left: 30vw;
+        width: 40vw;
+    }
+
+    .image-box {
+        width: 30vw;
+    }
+
+    .title {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 900px) {
+    nav {
+        grid-template-columns: 1fr auto;
+    }
+
+    .left-links {
+        display: none;
+    }
+
+    .splash-box {
+        display: none;
+    }
+
+    .content {
+        position: relative;
+        left: 0;
+        width: 100%;
+        top: 0;
+        transform: none !important;
+        text-align: center;
+        margin-top: 15vh;
+    }
+
+    .image-box {
+        position: relative;
+        width: 100%;
+        height: 40vh;
+        margin-top: 50px;
+    }
+
+    .slide {
+        flex-direction: column;
+        padding: 0 5%;
+        justify-content: flex-start;
+    }
+
+    .slide.active {
+        display: flex;
+        align-items: center;
+    }
+
+    .slide-nav {
+        justify-content: center;
+        gap: 50px;
+        margin-top: 20px;
+    }
+
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .description {
+        padding: 0 10%;
+        margin: 0 auto 30px auto;
+    }
+}
+
+/* Page transitions */
+.page-container {
+    overflow-y: auto;
+    height: 100vh;
+    scroll-behavior: smooth;
+}
+
+/* ================================================== */
+/* ======== Nossos Sabores (Flavor Cards) ======== */
+/* ================================================== */
+
+.flavor-section {
+    position: relative;
+    background-color: #d8d8d8;
+    /* Cor de fundo clara inspirada na ref. Pringles */
+    padding: 150px 80px 100px 80px;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+/* Linha ondulante SVG de fundo */
+.flavor-wavy-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.wavy-bg-path-base {
+    fill: none;
+    stroke: rgba(255,255,255,0.22);
+    stroke-width: 80;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.wavy-bg-path-animated {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 80;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+}
+
+
+/* Container de cada card alternado */
+.flavor-card-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8%;
+    margin-bottom: 250px;
+    position: relative;
+    z-index: 2;
+}
+
+.flavor-card-container.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Último card com margem menor */
+.flavor-card-container:last-child {
+    margin-bottom: 50px;
+}
+
+/* A caixa colorida de texto */
+.flavor-text-box {
+    position: relative;
+    width: 45%;
+    border-radius: 40px;
+    padding: 70px 50px;
+    color: #ffffff;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    /* Estas cores serão injetadas via estilo inline para coincidir com a cor do refri */
+}
+
+.flavor-text-box h2 {
+    font-size: 6rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+}
+
+.flavor-text-box p {
+    font-size: 1.3rem;
+    font-weight: 500;
+    line-height: 1.5;
+    opacity: 0.9;
+    max-width: 90%;
+}
+
+/* O Ícone/Emoji no canto superior */
+.flavor-icon-circle {
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    width: 110px;
+    height: 110px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    border: 6px solid;
+    /* Cor do card será herdada na div pai, mas faremos via inline ou currentColor */
+}
+
+.flavor-icon-circle svg {
+    width: 70px;
+    height: 70px;
+    fill: currentColor;
+}
+
+/* Setas desenhadas animadas */
+.flavor-arrow-svg {
+    position: absolute;
+    z-index: 3;
+    pointer-events: none;
+    overflow: visible;
+}
+
+/* Posições das setas dependendo da orientação */
+.flavor-arrow-svg.arrow-right {
+    top: 50%;
+    right: -120px;
+    transform: translateY(-50%);
+    width: 150px;
+    height: 100px;
+}
+
+.flavor-arrow-svg.arrow-left {
+    top: 50%;
+    left: -120px;
+    transform: translateY(-50%) scaleX(-1);
+    width: 150px;
+    height: 100px;
+}
+
+.flavor-arrow-path {
+    fill: none;
+    stroke: #333;
+    /* Cor parecida que o rabisco a lápis preto/escuro */
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+/* Área do Refrigerante */
+.flavor-can-col {
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 5;
+}
+
+/* Usando o mesmo sprite da lata (splashes.png) */
+.flavor-can-sprite {
+    width: 100%;
+    aspect-ratio: 0.65;
+    background-image: url('images/splashes.png');
+    background-size: 300% 100%;
+    background-repeat: no-repeat;
+    filter: drop-shadow(-15px 25px 30px rgba(0, 0, 0, 0.3));
+    transform-origin: bottom center;
+}
+
+.flavor-can-sprite.coca {
+    background-position: left center;
+}
+
+.flavor-can-sprite.fanta {
+    background-position: center center;
+}
+
+.flavor-can-sprite.sprite {
+    background-position: right center;
+}
+
+/* Responsividade adicional para os flavor cards */
+@media (max-width: 1100px) {
+    .flavor-text-box h2 {
+        font-size: 4rem;
+    }
+
+    .flavor-card-container {
+        gap: 4%;
+    }
+}
+
+@media (max-width: 800px) {
+    .flavor-section {
+        padding: 80px 5%;
+    }
+
+    .flavor-card-container,
+    .flavor-card-container.reverse {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 120px;
+    }
+
+    .flavor-text-box {
+        width: 100%;
+        margin-bottom: 40px;
+        padding: 50px 30px;
+    }
+
+    .flavor-text-box p {
+        margin: 0 auto;
+    }
+
+    .flavor-icon-circle {
+        right: 10px;
+        top: -40px;
+        width: 80px;
+        height: 80px;
+    }
+
+    .flavor-icon-circle svg {
+        width: 50px;
+        height: 50px;
+    }
+
+    .flavor-can-col {
+        width: 60%;
+    }
+
+    .flavor-arrow-svg {
+        display: none;
+        /* Desliga as setas em telas muito pequenas para não vazar a tela */
+    }
+}
+
+/* ======== Footer do Layout ======== */
+.author-footer {
+    position: relative;
+    z-index: 10;
+    background-color: #111111;
+    color: #ffffff;
+    padding: 25px 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-content p {
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+    opacity: 0.8;
+}
+
+.footer-content p strong {
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #f28b21, #d32027);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-size: 2.5rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+.github-link:hover {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.1);
+    color: #f28b21; /* Um brilho da fanta que casa bem */
+    filter: drop-shadow(0 0 12px rgba(242, 139, 33, 0.6));
+}
