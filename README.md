@@ -1,5 +1,4 @@
-<div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/1024px-Coca-Cola_logo.svg.png" alt="SODA Slider Premium" height="80">
+
 
   # Slider Premium
   _Uma experiência interativa e imersiva para apresentação de produtos em 3D e Parallax_
